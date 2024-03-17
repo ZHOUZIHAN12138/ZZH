@@ -1,0 +1,39 @@
+import random
+import string
+
+def get_user_input(prompt, valid_responses):
+
+    response = ''
+    while response not in valid_responses:
+        response = input(prompt).lower()
+    return response
+
+def generate_password(length, include_upper, include_lower, include_digits, include_symbols):
+
+    possible_characters = ''
+    if include_upper:
+        possible_characters += string.ascii_uppercase
+    if include_lower:
+        possible_characters += string.ascii_lowercase
+    if include_digits:
+        possible_characters += string.digits
+    if include_symbols:
+        possible_characters += string.punctuation
+
+    if not possible_characters:
+        raise ValueError("At least one character type must be selected!")
+
+    return ''.join(random.choice(possible_characters) for _ in range(length))
+
+if __name__ == "__main__":
+    print("Welcome to the Password Generator!")
+
+    length = int(input("Enter the password length: "))
+
+    include_upper = get_user_input("Include uppercase letters? (y/n): ", ['y', 'n']) == 'y'
+    include_lower = get_user_input("Include lowercase letters? (y/n): ", ['y', 'n']) == 'y'
+    include_digits = get_user_input("Include digits? (y/n): ", ['y', 'n']) == 'y'
+    include_symbols = get_user_input("Include special characters? (y/n): ", ['y', 'n']) == 'y'
+
+    password = generate_password(length, include_upper, include_lower, include_digits, include_symbols)
+    print(f"Your password is: {password}")
